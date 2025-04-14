@@ -46,7 +46,7 @@ class ADA:
             self.device = "cpu"
             print("CUDA is not available. Using CPU.")
 
-        self.client = genai.Client(api_key=GOOGLE_API_KEY, http_options={'api_version': 'v1alpha'})
+        self.client = genai.Client(api_key=GOOGLE_API_KEY, http_options={'api_version': 'v1beta'})
         self.model = "gemini-2.0-flash-live-001" # Or your chosen model
 
         # --- Function Declarations (Keep as before) ---
