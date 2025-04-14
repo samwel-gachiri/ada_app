@@ -1,0 +1,201 @@
+/* src/components/Visualizer.module.css */
+
+/* Container for the orb */
+.orbContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Increased padding and height for the larger orb */
+  padding: 30px 0;
+  height: 200px; /* Adjust as needed */
+  margin-bottom: 15px;
+  /* perspective: 500px; */ /* Optional: Add perspective for 3D effects */
+}
+
+/* Main orb element */
+.orb {
+  width: 200px; /* Increased size */
+  height: 200px;
+  /* background-color: grey; */ /* Remove default bg, use status styles */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); /* Smoother transition */
+  position: relative; /* For pseudo-elements and core positioning */
+  overflow: visible; /* Allow shadows/glows to extend */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  transform-style: preserve-3d; /* Optional: For 3D effects */
+}
+
+/* Inner core element */
+.orbCore {
+  width: 25%;
+  height: 25%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  z-index: 1; /* Ensure core is above pseudo-elements if needed */
+}
+
+/* Pseudo-elements for rings/layers */
+.orb::before,
+.orb::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  /* Start centered */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5); /* Start smaller */
+  opacity: 0;
+  transition: all 0.5s ease-out;
+}
+
+/* --- Status-specific styles --- */
+
+/* IDLE State */
+.idle {
+  background-image: radial-gradient(circle, #555 0%, #333 100%);
+  animation: breatheIdle 5s infinite ease-in-out; /* Slow breathing */
+}
+.idle .orbCore {
+  transform: scale(0.8);
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* LISTENING State */
+.listening {
+  background-image: radial-gradient(
+    circle,
+    #34c759 0%,
+    #1a8a3e 100%
+  ); /* Greener gradient */
+  animation: pulseListen 1.5s infinite ease-in-out;
+  filter: drop-shadow(0 0 8px #28a745);
+}
+.listening .orbCore {
+  transform: scale(1.2);
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+/* Ripple effect using ::after */
+.listening::after {
+  border: 2px solid rgba(40, 167, 69, 0); /* Start transparent border */
+  width: 100%; /* Start same size as orb */
+  height: 100%;
+  top: 0;
+  left: 0;
+  transform: translate(0, 0) scale(1); /* Correct initial state */
+  animation: rippleListen 1.5s infinite ease-out;
+  opacity: 1; /* Start opaque */
+}
+
+/* SPEAKING State */
+.speaking {
+  background-image: linear-gradient(
+    45deg,
+    #0d6efd 0%,
+    #0056b3 100%
+  ); /* Adjusted blue */
+  animation: pulseSpeak 1s infinite alternate;
+  filter: drop-shadow(0 0 12px var(--accent-dark, #0d6efd));
+}
+.speaking .orbCore {
+  background-color: rgba(255, 255, 255, 0.9);
+  animation: pulseCoreSpeak 1s infinite ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+/* Rotating rings using ::before and ::after */
+.speaking::before {
+  width: 110%;
+  height: 110%;
+  border: 3px dashed rgba(255, 255, 255, 0.2); /* Dashed ring */
+  opacity: 0.5;
+  transform: translate(-50%, -50%) scale(1); /* Scale to full size */
+  animation: rotateRing 5s linear infinite;
+}
+.speaking::after {
+  width: 125%; /* Larger ring */
+  height: 125%;
+  border: 2px solid rgba(255, 255, 255, 0.3); /* Solid ring */
+  opacity: 0.4;
+  transform: translate(-50%, -50%) scale(1);
+  animation: rotateRing 8s linear infinite reverse; /* Slower, opposite direction */
+}
+
+/* --- Keyframe Animations --- */
+
+@keyframes breatheIdle {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(0.82);
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulseListen {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px 0px rgba(40, 167, 69, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px 10px rgba(40, 167, 69, 0);
+  } /* Fade out shadow */
+}
+
+@keyframes rippleListen {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    border-color: rgba(40, 167, 69, 0.7);
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+    border-color: rgba(40, 167, 69, 0);
+  }
+}
+
+@keyframes pulseSpeak {
+  from {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px #007bffaa;
+  }
+  to {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px 8px #007bffee;
+  }
+}
+
+@keyframes pulseCoreSpeak {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateRing {
+  from {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1) rotate(360deg);
+  }
+}

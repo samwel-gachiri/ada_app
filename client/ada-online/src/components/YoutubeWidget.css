@@ -1,0 +1,278 @@
+/* src/components/YouTubeWidget.css */
+
+.youtube-widget-container {
+  position: fixed; /* Or absolute if needed within another element */
+  bottom: 20px;
+  left: 20px; /* Position it somewhere else, e.g., bottom-left */
+  width: 800px; /* Wider to accommodate player and list */
+  max-width: 90%;
+  height: 500px; /* Taller */
+  max-height: 80vh;
+  background-color: var(--card-background-light, #fff);
+  color: var(--text-light, #212529);
+  border: 1px solid var(--muted-text-light, #ccc);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1001; /* Ensure it's above other widgets */
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent content overflow */
+}
+
+/* Dark Theme Styles */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .youtube-widget-container {
+    background-color: var(--card-background-dark, #2c3034);
+    color: var(--text-dark, #e9ecef);
+    border-color: var(--muted-text-dark, #555);
+  }
+}
+body[data-theme="dark"] .youtube-widget-container {
+  background-color: var(--card-background-dark, #2c3034);
+  color: var(--text-dark, #e9ecef);
+  border-color: var(--muted-text-dark, #555);
+}
+
+.youtube-widget-close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  color: inherit;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+.youtube-widget-close-button:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+/* Dark theme close button */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .youtube-widget-close-button {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  body:not([data-theme="light"]) .youtube-widget-close-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+body[data-theme="dark"] .youtube-widget-close-button {
+  background: rgba(255, 255, 255, 0.2);
+}
+body[data-theme="dark"] .youtube-widget-close-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.youtube-widget-container h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 1.2em;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.Youtube-area {
+  display: flex;
+  margin-bottom: 10px;
+  gap: 10px; /* Add space between input and button */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.Youtube-input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--muted-text-light, #ccc);
+  border-radius: 6px;
+  font-size: 0.95em;
+  background-color: var(--background-light, #f8f9fa);
+  color: var(--text-light, #212529);
+}
+.Youtube-input:focus {
+  outline: none;
+  border-color: var(--accent-light, #007bff);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .Youtube-input {
+    background-color: var(--card-background-dark, #343a40);
+    color: var(--text-dark, #e9ecef);
+    border-color: var(--muted-text-dark, #555);
+  }
+  body:not([data-theme="light"]) .Youtube-input:focus {
+    border-color: var(--accent-dark, #0d6efd);
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.3);
+  }
+}
+body[data-theme="dark"] .Youtube-input {
+  background-color: var(--card-background-dark, #343a40);
+  color: var(--text-dark, #e9ecef);
+  border-color: var(--muted-text-dark, #555);
+}
+body[data-theme="dark"] .Youtube-input:focus {
+  border-color: var(--accent-dark, #0d6efd);
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.3);
+}
+
+.Youtube-button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--accent-light, #007bff);
+  color: white;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.Youtube-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+.Youtube-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .Youtube-button {
+    background-color: var(--accent-dark, #0d6efd);
+  }
+  body:not([data-theme="light"]) .Youtube-button:hover:not(:disabled) {
+    background-color: #0a58ca;
+  }
+  body:not([data-theme="light"]) .Youtube-button:disabled {
+    background-color: #555e67;
+  }
+}
+body[data-theme="dark"] .Youtube-button {
+  background-color: var(--accent-dark, #0d6efd);
+}
+body[data-theme="dark"] .Youtube-button:hover:not(:disabled) {
+  background-color: #0a58ca;
+}
+body[data-theme="dark"] .Youtube-button:disabled {
+  background-color: #555e67;
+}
+
+.youtube-error-message {
+  color: #dc3545;
+  margin: 5px 0 10px 0;
+  font-size: 0.9em;
+  text-align: center;
+  flex-shrink: 0;
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .youtube-error-message {
+    color: #f87171;
+  }
+}
+body[data-theme="dark"] .youtube-error-message {
+  color: #f87171;
+}
+
+.youtube-content-area {
+  display: flex;
+  flex-grow: 1; /* Takes remaining vertical space */
+  overflow: hidden; /* Prevents internal scrollbars if content too big */
+  gap: 15px; /* Space between player and results */
+  margin-top: 5px;
+}
+
+.youtube-player-wrapper {
+  flex: 2; /* Player takes more space */
+  min-width: 0; /* Allow shrinking */
+  display: flex; /* Center iframe */
+  align-items: center; /* Vertically center iframe */
+  justify-content: center; /* Horizontally center iframe */
+}
+
+.youtube-iframe {
+  max-width: 100%; /* Ensure iframe respects container width */
+  border: none; /* Remove default iframe border */
+}
+
+.youtube-results-list {
+  flex: 1; /* Results take less space */
+  overflow-y: auto; /* Allow results to scroll */
+  border-left: 1px solid var(--muted-text-light, #eee);
+  padding-left: 15px;
+  min-width: 200px; /* Minimum width for results */
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .youtube-results-list {
+    border-left-color: var(--muted-text-dark, #444);
+  }
+}
+body[data-theme="dark"] .youtube-results-list {
+  border-left-color: var(--muted-text-dark, #444);
+}
+
+.youtube-results-list h5 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+
+.youtube-results-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.youtube-results-list li {
+  display: flex;
+  align-items: center;
+  padding: 8px 5px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  gap: 10px; /* Space between image and text */
+  overflow: hidden; /* Prevent text wrapping weirdly */
+}
+
+.youtube-results-list li:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .youtube-results-list li:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+}
+body[data-theme="dark"] .youtube-results-list li:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.youtube-results-list li.selected {
+  background-color: var(--accent-light, #007bff);
+  color: white;
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .youtube-results-list li.selected {
+    background-color: var(--accent-dark, #0d6efd);
+  }
+}
+body[data-theme="dark"] .youtube-results-list li.selected {
+  background-color: var(--accent-dark, #0d6efd);
+}
+
+.youtube-results-list img {
+  flex-shrink: 0; /* Prevent image shrinking */
+  border-radius: 3px;
+}
+
+.youtube-results-list span {
+  font-size: 0.85em;
+  /* Allow text to truncate */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

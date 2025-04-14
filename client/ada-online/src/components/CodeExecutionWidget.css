@@ -1,0 +1,99 @@
+/* src/components/CodeExecutionWidget.css */
+
+.code-widget-container {
+  /* --- Fixed Positioning & Size --- */
+  position: fixed;
+  top: 20px; /* Distance from top */
+  right: 20px; /* Distance from right */
+  width: 500px; /* Smaller width */
+  max-width: 80%; /* Keep max-width constraint */
+  max-height: 400px; /* Smaller max-height */
+  z-index: 1002; /* Ensure it's above other widgets if necessary */
+  /* Removed cursor and user-select */
+
+  /* --- Base styles --- */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  padding-top: 35px; /* Space for title and close button */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  /* --- Theme Styles --- */
+  background-color: var(--card-background-light, #ffffff);
+  color: var(--text-light, #212529);
+  border-color: var(--muted-text-light, #ccc);
+}
+
+/* --- Removed .dragging class style block --- */
+
+/* Dark Theme Styles */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .code-widget-container {
+    background-color: var(--card-background-dark, #2c3034);
+    color: var(--text-dark, #e9ecef);
+    border-color: var(--muted-text-dark, #555);
+  }
+  /* No specific dark theme for dragging needed anymore */
+}
+body[data-theme="dark"] .code-widget-container {
+  background-color: var(--card-background-dark, #2c3034);
+  color: var(--text-dark, #e9ecef);
+  border-color: var(--muted-text-dark, #555);
+}
+/* --- End Theme Styles --- */
+
+/* --- Close Button Styles (Keep as is) --- */
+.code-widget-close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  /* ... rest of close button styles ... */
+  z-index: 10; /* Ensure it's above the code block */
+}
+.code-widget-close-button:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+/* ... dark theme close button styles ... */
+
+/* --- Title Styles (Keep as is) --- */
+.code-widget-container h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  font-weight: 600;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* --- Code Block Styles (Keep as is) --- */
+.code-widget-pre {
+  flex-grow: 1;
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 10px;
+  border-radius: 4px;
+  overflow: auto;
+  margin: 0;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+  line-height: 1.4;
+  white-space: pre;
+  /* Ensure code block allows default cursor/selection */
+  cursor: text;
+  user-select: text;
+}
+
+/* Dark theme pre block */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .code-widget-pre {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444; /* Optional subtle border */
+  }
+}
+body[data-theme="dark"] .code-widget-pre {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #444;
+}

@@ -1,0 +1,94 @@
+/* src/components/ChatBox.css */
+.chatbox {
+  height: 250px;
+  overflow-y: scroll;
+  border: none;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+
+  /* --- THEME STYLES --- */
+  /* Default (Light) Theme */
+  background-color: var(
+    --card-background-light,
+    #f8f9fa
+  ); /* Use variable with fallback */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Theme Styles */
+@media (prefers-color-scheme: dark) {
+  /* Apply dark theme if body doesn't explicitly have data-theme="light" */
+  body:not([data-theme="light"]) .chatbox {
+    background-color: var(
+      --background-dark,
+      #212529
+    ); /* Use a dark background variable */
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.05); /* Lighter inner shadow for dark */
+  }
+}
+/* Apply dark theme if body explicitly has data-theme="dark" */
+body[data-theme="dark"] .chatbox {
+  background-color: var(--background-dark, #212529);
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.05);
+}
+/* --- END THEME STYLES --- */
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 18px;
+  width: fit-content;
+  max-width: 80%;
+  line-height: 1.4;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* --- User Message Theme Styles --- */
+.user-message {
+  /* Default (Light) */
+  background-color: var(--accent-light, #007bff);
+  color: white; /* Usually white text on accent */
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .user-message {
+    background-color: var(--accent-dark, #0d6efd);
+    /* color: var(--text-dark, white); */ /* Ensure contrast if needed */
+  }
+}
+body[data-theme="dark"] .user-message {
+  background-color: var(--accent-dark, #0d6efd);
+  /* color: var(--text-dark, white); */
+}
+/* --- END User Message Theme Styles --- */
+
+/* --- ADA Message Theme Styles --- */
+.ada-message {
+  /* Default (Light) */
+  background-color: #e9ecef; /* Keep light grey or use a light card variable */
+  color: var(--text-light, #212529); /* Use variable */
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .ada-message {
+    background-color: var(
+      --card-background-dark,
+      #343a40
+    ); /* Use dark card bg */
+    color: var(--text-dark, #e9ecef); /* Use light text */
+  }
+}
+body[data-theme="dark"] .ada-message {
+  background-color: var(--card-background-dark, #343a40);
+  color: var(--text-dark, #e9ecef);
+}
+/* --- END ADA Message Theme Styles --- */
+
+.message span {
+  display: block;
+}

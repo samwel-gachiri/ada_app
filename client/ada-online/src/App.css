@@ -1,0 +1,65 @@
+/* src/App.css */
+
+.app-container {
+  width: 100%;
+  max-width: 700px; /* Slightly narrower */
+  /* Use theme variables */
+  background-color: var(--card-background-light); /* Default light */
+  border-radius: 12px; /* Slightly larger radius */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Softer shadow */
+  padding: 25px 30px; /* Adjust padding */
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  min-height: calc(100vh - 80px); /* Ensure it takes significant height */
+  box-sizing: border-box;
+}
+
+/* Apply dark mode styles */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .app-container {
+    background-color: var(--card-background-dark);
+  }
+}
+body[data-theme="dark"] .app-container {
+  background-color: var(--card-background-dark);
+}
+
+.app-container h1 {
+  text-align: center;
+  color: var(--text-light); /* Use variable */
+  margin-bottom: 15px; /* Adjust spacing */
+  font-weight: 1000;
+  font-size: 5rem; /* Add this line - Adjust the value as needed */
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .app-container h1 {
+    color: var(--text-dark);
+  }
+}
+body[data-theme="dark"] .app-container h1 {
+  color: var(--text-dark);
+}
+
+/* Remove chat-wrapper if not needed, structure is in App.jsx */
+/* .chat-wrapper { ... } */
+
+footer {
+  margin-top: auto; /* Push footer to bottom */
+  padding-top: 15px;
+  border-top: 1px solid #eee; /* Keep separator or remove */
+  font-size: 0.85em;
+  color: var(--muted-text-light); /* Use variable */
+  text-align: center;
+  opacity: 0.8;
+}
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) footer {
+    border-top-color: #333;
+    color: var(--muted-text-dark);
+  }
+}
+body[data-theme="dark"] footer {
+  border-top-color: #333;
+  color: var(--muted-text-dark);
+}

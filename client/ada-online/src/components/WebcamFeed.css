@@ -1,0 +1,73 @@
+/* src/components/WebcamFeed.css */
+
+.webcam-feed-container {
+  position: fixed; /* Position relative to the viewport */
+  bottom: 20px; /* Distance from bottom */
+  right: 20px; /* Distance from right */
+  width: 480px; /* Adjust width as needed */
+  height: 270px; /* Adjust height as needed */
+  background-color: #111; /* Dark background while loading/error */
+  border: 2px solid var(--accent-dark, #0d6efd); /* Use theme color or fallback */
+  border-radius: 8px;
+  overflow: hidden; /* Hide parts of the video that might overflow */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000; /* Ensure it's above other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.webcam-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the container, might crop video */
+  transform: scaleX(-1); /* Mirror the video like a real mirror */
+}
+
+.webcam-close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 16px;
+  line-height: 25px; /* Center the '×' */
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001; /* Above the video */
+  transition: background-color 0.2s;
+}
+
+.webcam-close-button:hover {
+  background-color: rgba(255, 0, 0, 0.7);
+}
+
+.webcam-error {
+  padding: 15px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #ffdddd; /* Light red text for dark background */
+}
+.webcam-error p {
+  margin-bottom: 10px;
+}
+.webcam-close-button.error-close {
+  position: static; /* Reset position for error layout */
+  margin-top: 10px;
+  background-color: #dc3545; /* Red background */
+  color: white;
+  border-radius: 4px;
+  width: auto;
+  height: auto;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  line-height: normal;
+}
+.webcam-close-button.error-close:hover {
+  background-color: #c82333;
+}

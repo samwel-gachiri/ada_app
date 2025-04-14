@@ -1,0 +1,10 @@
+/* src/components/StatusDisplay.css */
+.status-display {
+    margin-top: 10px; /* Space above the status */
+    margin-bottom: 10px; /* Space below the status, before input area */
+    font-style: italic;
+    color: #666; /* Grey color */
+    min-height: 1.2em; /* Ensure it takes up space even when empty */
+    text-align: center; /* Center the status text */
+    padding: 5px; /* Add a little padding */
+}

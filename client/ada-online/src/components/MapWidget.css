@@ -1,0 +1,108 @@
+/* src/components/MapWidget.css */
+
+.map-widget {
+  position: fixed; /* Or absolute, depending on needs */
+  z-index: 998; /* Slightly below webcam/weather if needed */
+  width: 400px; /* Adjust size as needed */
+  height: 350px; /* Adjust size as needed */
+  cursor: grab;
+  user-select: none;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  padding-top: 35px; /* Space for close button and title */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack title and map vertically */
+
+  /* --- Theme Styles (Adapt from WeatherWidget.css) --- */
+  background-color: var(--card-background-light, #ffffff);
+  color: var(--text-light, #212529);
+  border-color: var(--muted-text-light, #ccc);
+}
+
+.map-widget.dragging {
+  cursor: grabbing;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Theme Styles (Adapt from WeatherWidget.css) */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .map-widget {
+    background-color: var(--card-background-dark, #2c3034);
+    color: var(--text-dark, #e9ecef);
+    border-color: var(--muted-text-dark, #555);
+  }
+}
+body[data-theme="dark"] .map-widget {
+  background-color: var(--card-background-dark, #2c3034);
+  color: var(--text-dark, #e9ecef);
+  border-color: var(--muted-text-dark, #555);
+}
+/* --- End Theme Styles --- */
+
+.map-widget-close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  color: inherit;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10; /* Above map content */
+}
+
+.map-widget-close-button:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+/* Dark theme adjustments (Adapt from WeatherWidget.css) */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .map-widget-close-button {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  body:not([data-theme="light"]) .map-widget-close-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+body[data-theme="dark"] .map-widget-close-button {
+  background: rgba(255, 255, 255, 0.2);
+}
+body[data-theme="dark"] .map-widget-close-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.map-widget h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  font-weight: 600;
+  text-align: center; /* Center the title */
+  flex-shrink: 0; /* Prevent title from shrinking */
+}
+
+/* Style the container for the map display/iframe */
+.map-display-area {
+  flex-grow: 1; /* Allow map area to take remaining space */
+  border: 1px solid #eee; /* Optional border around map */
+  border-radius: 4px;
+  overflow: hidden; /* Ensure iframe fits */
+}
+
+/* Dark theme border for map area */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .map-display-area {
+    border-color: #444;
+  }
+}
+body[data-theme="dark"] .map-display-area {
+  border-color: #444;
+}

@@ -1,0 +1,110 @@
+/* src/components/WeatherWidget.css */
+
+.weather-widget {
+  /* --- Positioning & Dragging --- */
+  position: fixed; /* Use fixed to position relative to viewport */
+  /* Removed bottom/left - position set by state now */
+  z-index: 999;
+  width: 250px;
+  max-width: 80%;
+  cursor: grab; /* Default cursor indicates it's draggable */
+  user-select: none; /* Prevent text selection during drag */
+
+  /* --- Base styles --- */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  padding-top: 30px; /* Add padding top to avoid overlap with close button */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+
+  /* --- Theme Styles (Unchanged) --- */
+  background-color: var(--card-background-light, #ffffff);
+  color: var(--text-light, #212529);
+  border-color: var(--muted-text-light, #ccc);
+}
+
+/* Style when the widget is being dragged */
+.weather-widget.dragging {
+  cursor: grabbing; /* Cursor to indicate active dragging */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Optional: enhance shadow while dragging */
+}
+
+/* Dark Theme Styles (Unchanged) */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .weather-widget {
+    background-color: var(--card-background-dark, #2c3034);
+    color: var(--text-dark, #e9ecef);
+    border-color: var(--muted-text-dark, #555);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  body:not([data-theme="light"]) .weather-widget.dragging {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  }
+}
+body[data-theme="dark"] .weather-widget {
+  background-color: var(--card-background-dark, #2c3034);
+  color: var(--text-dark, #e9ecef);
+  border-color: var(--muted-text-dark, #555);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+body[data-theme="dark"] .weather-widget.dragging {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+/* --- END THEME STYLES --- */
+
+/* --- Close Button Styles --- */
+.weather-widget-close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  color: inherit; /* Inherit color from widget text */
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 18px; /* Adjust for vertical centering */
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000; /* Above content */
+  transition: background-color 0.2s ease;
+}
+
+.weather-widget-close-button:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Dark theme adjustments for close button */
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .weather-widget-close-button {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  body:not([data-theme="light"]) .weather-widget-close-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+body[data-theme="dark"] .weather-widget-close-button {
+  background: rgba(255, 255, 255, 0.2);
+}
+body[data-theme="dark"] .weather-widget-close-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* --- Content Styling (Unchanged) --- */
+.weather-widget h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.weather-widget p {
+  margin-bottom: 5px;
+  margin-top: 0;
+  font-size: 0.95em;
+  line-height: 1.4;
+}
