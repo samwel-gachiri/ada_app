@@ -2,11 +2,11 @@
 
 ## Overview
 
-This application is a conversational AI assistant named Ada, built with a Python backend (Flask, SocketIO, Google Gemini) and a React frontend. It supports text input, client-side speech-to-text (Web Speech API), text-to-speech (ElevenLabs), webcam video frame processing, and integrates with external APIs for weather (python_weather), maps/directions (googlemaps), and web search (googlesearch-python, aiohttp, BeautifulSoup). Communication between the frontend and backend happens in real-time using WebSockets (SocketIO). (FOR MORE DETAILED ON BACKEND REFERENCE THE ADA REPO "https://github.com/Nlouis38/ada")
+This application is a conversational AI assistant named Ada, built with a Python backend (Flask, SocketIO, Google Gemini) and a React frontend. It supports text input, client-side speech-to-text (Web Speech API), text-to-speech (ElevenLabs), webcam video frame processing, and integrates with external APIs for weather (python_weather), maps/directions (googlemaps), and web search (googlesearch-python, aiohttp, BeautifulSoup). Communication between the frontend and backend happens in real-time using WebSockets (SocketIO).
 
 ## How it Works
 
-1.  **Backend (`app.py`, `ADA_Online.py`):**
+1.  **Backend (`backend/app.py`, `backend/ADA_Online.py`):**
 
     - A Flask server manages HTTP requests and SocketIO connections.
     - SocketIO handles real-time bidirectional communication with the React frontend.
@@ -22,7 +22,7 @@ This application is a conversational AI assistant named Ada, built with a Python
     - Generated audio chunks (PCM) are received from ElevenLabs and streamed back to the client via SocketIO.
     - API results (weather, maps, search) are also emitted to the client via dedicated SocketIO events to update specific UI widgets.
 
-2.  **Frontend (`App.jsx`, components):**
+2.  **Frontend (`frontend/src/App.jsx`, components):**
     - A React application provides the user interface.
     - It establishes a SocketIO connection to the backend server.
     - It renders components for chat display (`ChatBox`), user input (`InputArea`), status messages (`StatusDisplay`), AI visualization (`AiVisualizer`), webcam feed (`WebcamFeed`), and widgets for weather (`WeatherWidget`), maps (`MapWidget`), code execution (`CodeExecutionWidget`), and search results (`SearchResultsWidget`).
@@ -39,29 +39,57 @@ This application is a conversational AI assistant named Ada, built with a Python
     - The `WebcamFeed` component handles accessing the user's camera, displaying the feed (mirrored), and capturing frames.
     - Other widgets (`Weather`, `Map`, `Code`, `Search`) are displayed conditionally when relevant data is received from the backend.
 
+## Getting Started
+
+These instructions assume you have Git, Python 3.7+, pip, and Node.js (with npm) installed on your system.
+
+1.  **Clone the Repository:**
+    Open your terminal or command prompt and clone the project repository from its source (replace `<repository_url>` with the actual URL):
+
+    ```bash
+    git clone <repository_url>
+    cd <repository_directory_name> # Navigate into the cloned project directory
+    ```
+
+2.  **Backend Setup:** Follow the steps in the [Backend Setup (Python)](#backend-setup-python) section.
+
+3.  **Frontend Setup:** Follow the steps in the [Frontend Setup (React)](#frontend-setup-react) section.
+
+4.  **Configuration:** Create and populate the `.env` file as described in the [Configuration](#configuration) section.
+
+5.  **Run the Application:** Follow the steps in the [Running the Application](#running-the-application) section.
+
 ## Backend Setup (Python)
 
-1.  **Prerequisites:**
+1.  **Navigate to Backend Directory:**
+    From the root project directory you cloned, navigate into the backend folder:
 
-    - Python 3.7+ installed.
-    - `pip` (Python package installer).
+    ```bash
+    cd backend # Or the name of your backend directory
+    ```
 
-2.  **Create Environment (Recommended):**
+2.  **Create & Activate Virtual Environment:**
+    It's highly recommended to use a virtual environment to manage dependencies.
 
     ```bash
     python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    source venv/bin/activate  # On Linux/macOS
+    # OR
+    # venv\Scripts\activate    # On Windows Command Prompt/PowerShell
     ```
+
+    You should see `(venv)` prefixing your terminal prompt.
 
 3.  **Install Dependencies:**
-    Navigate to the directory containing `app.py` and `ADA_Online.py`. Create a `requirements.txt` file with the following content:
+    Ensure you have a `requirements.txt` file in the `backend` directory with the following content:
 
-    ```
+    ```txt
+    # requirements.txt
     Flask
     Flask-SocketIO
     python-dotenv
     google-generativeai
-    torch # Or torch-cpu if no CUDA GPU
+    torch # Or torch-cpu if no CUDA GPU / for simpler setup
     python-weather
     googlemaps
     websockets
@@ -69,98 +97,102 @@ This application is a conversational AI assistant named Ada, built with a Python
     aiohttp
     beautifulsoup4
     lxml # Parser for BeautifulSoup
-    requests # Often a dependency for googlemaps or others
-    eventlet # Often needed by Flask-SocketIO for async
+    requests # Often a dependency
+    eventlet # Recommended async mode for Flask-SocketIO
     ```
 
-    Then run:
+    Install the packages using pip:
 
     ```bash
     pip install -r requirements.txt
     ```
 
-    _(Note: `torch` installation might vary depending on your system and CUDA setup. Visit the PyTorch website for specific instructions if needed.)_
+    _(Note: `torch` installation can be complex. If you encounter issues or don't have an NVIDIA GPU, consider using `torch-cpu` in `requirements.txt`. Visit the [PyTorch website](https://pytorch.org/) for specific installation instructions for your system if needed.)_
 
-4.  **Configuration:** See the [Configuration](#configuration) section below.
+4.  **Configuration:**
+    Make sure you have created the `.env` file inside this `backend` directory as detailed in the [Configuration](#configuration) section.
 
 ## Frontend Setup (React)
 
-1.  **Prerequisites:**
+1.  **Navigate to Frontend Directory:**
+    From the root project directory you cloned, navigate into the frontend folder:
 
-    - Node.js (which includes npm) installed. Recommended version: LTS.
+    ```bash
+    cd ../frontend # Or the name of your frontend directory (use 'cd ..' first if still in 'backend')
+    ```
 
 2.  **Install Dependencies:**
-
-    - Navigate to the root directory of your React project (where `package.json` is located, likely the parent directory of `src`).
-    - If you don't have a `package.json` or haven't initialized the project, you might need to do so (e.g., using Create React App or Vite). Assuming you have one, run:
-
+    This command reads the `package.json` file and installs all the necessary Node.js modules.
     ```bash
     npm install
     ```
-
-    This will install React and other dependencies listed in your `package.json`. Based on the imports in `App.jsx`, you'll likely need at least:
-
-    - `react`
-    - `react-dom`
-    - `socket.io-client`
-    - `prop-types`
-    - `react-youtube` (if using the `YouTubeWidget`)
-
-    _(If you started with a template like Create React App or Vite, these might already be included or managed)._
+    This will install React, `socket.io-client`, `react-youtube`, `prop-types`, and any other dependencies defined in `package.json`.
 
 ## Configuration
 
-1.  **Create `.env` file:** In the **backend** directory (same level as `app.py`), create a file named `.env`.
-2.  **Add API Keys and Secrets:** Add the following lines to the `.env` file, replacing the placeholder values with your actual keys and desired settings:
+1.  **Locate Backend Directory:** Ensure you are in the **backend** directory (e.g., `cd backend` from the root project folder).
+2.  **Create `.env` file:** Create a file named exactly `.env`.
+3.  **Add API Keys and Secrets:** Open the `.env` file and add the following lines, replacing the placeholder values with your actual keys and desired settings:
 
     ```dotenv
-    # Backend Keys
+    # --- Backend API Keys ---
+    # Get from ElevenLabs website
     ELEVENLABS_API_KEY="YOUR_ELEVENLABS_API_KEY"
-    GOOGLE_API_KEY="YOUR_GOOGLE_GEMINI_API_KEY"
-    MAPS_API_KEY="YOUR_Maps_API_KEY" # For Directions API
-    FLASK_SECRET_KEY="a_strong_random_secret_key_here" # Change for production
 
-    # Frontend Configuration (Used by backend for CORS)
-    REACT_APP_PORT="5173" # The port your React app runs on (Default for Vite)
+    # Get from Google AI Studio (for Gemini Models)
+    GOOGLE_API_KEY="YOUR_GOOGLE_GEMINI_API_KEY"
+
+    # Get from Google Cloud Console (Enabled for Directions API)
+    MAPS_API_KEY="YOUR_Maps_API_KEY"
+
+    # --- Flask Server Settings ---
+    # Used for session security, generate a random string
+    FLASK_SECRET_KEY="a_very_strong_and_random_secret_key_please_change_me"
+
+    # --- Frontend Settings (for Backend CORS) ---
+    # Port the React frontend development server runs on
+    REACT_APP_PORT="5173" # Default for Vite. Use 3000 for Create React App, or your custom port.
     ```
 
-    - **`ELEVENLABS_API_KEY`**: Your API key from ElevenLabs for text-to-speech.
-    - **`GOOGLE_API_KEY`**: Your Google AI Studio API key for the Gemini model.
-    - **`MAPS_API_KEY`**: Your Google Cloud API key enabled for the Directions API.
-    - **`FLASK_SECRET_KEY`**: A random secret key used by Flask for session management. Generate a strong random string for this.
-    - **`REACT_APP_PORT`**: The port the React development server will run on. This is used by the Flask backend to configure CORS correctly, allowing the frontend to connect. Ensure this matches the port used when running the frontend (e.g., Vite defaults to 5173, Create React App to 3000).
+    **Important:**
+
+    - Never commit your `.env` file to Git. Add `.env` to your `.gitignore` file in the backend directory.
+    - Ensure the `MAPS_API_KEY` corresponds to a Google Cloud project where the **Directions API** is enabled.
+    - Ensure the `GOOGLE_API_KEY` is for **Google Gemini models** (available via Google AI Studio).
+    - Generate a truly random and strong `FLASK_SECRET_KEY`.
 
 ## Running the Application
 
+You will need two separate terminals open: one for the backend and one for the frontend.
+
 1.  **Start the Backend Server:**
 
-    - Open a terminal or command prompt.
-    - Navigate to the backend directory (containing `app.py`).
-    - Activate the Python virtual environment (e.g., `source venv/bin/activate`).
+    - Open Terminal 1.
+    - Navigate to the `backend` directory.
+    - Activate the Python virtual environment: `source venv/bin/activate` (or `venv\Scripts\activate` on Windows).
     - Run the Flask application:
       ```bash
       python app.py
       ```
-    - The server should start, typically on `http://0.0.0.0:5000`. Look for output indicating it's running and listening for connections.
+    - Wait for output indicating the server is running (e.g., `* Running on http://0.0.0.0:5000` and WebSocket server started messages). Leave this terminal running.
 
 2.  **Start the Frontend Development Server:**
 
-    - Open a _separate_ terminal or command prompt.
-    - Navigate to the frontend project's root directory (containing `package.json`).
-    - Run the start script:
+    - Open Terminal 2.
+    - Navigate to the `frontend` directory.
+    - Run the start script (use the command appropriate for your project setup):
       ```bash
-      npm run dev  # If using Vite (common)
+      npm run dev  # If using Vite (likely based on main.jsx structure)
       # OR
       # npm start    # If using Create React App
       ```
-    - This will compile the React code and start the development server, usually opening the application automatically in your web browser (e.g., at `http://localhost:5173`).
+    - This should automatically open the application in your default web browser, pointing to `http://localhost:5173` (or the port specified in `REACT_APP_PORT` if configured differently).
 
 3.  **Use the Application:**
-    - The React app should connect to the Flask backend via SocketIO.
-    - You can type messages or click the microphone button (if supported and permission granted) to talk to Ada.
-    - Enable the webcam to send video frames for analysis with your prompts.
+    - Interact with the interface in your browser. Grant microphone and webcam permissions when prompted if you wish to use those features.
 
 ## Stopping the Application
 
-1.  **Stop the Frontend Server:** Press `Ctrl + C` in the frontend terminal.
-2.  **Stop the Backend Server:** Press `Ctrl + C` in the backend terminal.
+1.  **Stop the Frontend Server:** Go to Terminal 2 (where the frontend is running) and press `Ctrl + C`. Confirm if prompted.
+2.  **Stop the Backend Server:** Go to Terminal 1 (where the backend is running) and press `Ctrl + C`.
+3.  **Deactivate Virtual Environment (Optional):** In Terminal 1, you can type `deactivate`.
