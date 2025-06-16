@@ -1,2 +1,4 @@
 /realtimesst.log
 /.env
+server/__pycache__/
+server/venv/
