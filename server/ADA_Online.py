@@ -1,13 +1,13 @@
 # server/ADA_Online.py (Revised: Emits moved into functions)
 import asyncio
 import base64
-import torch
+# import torch
 import python_weather
 import asyncio
 from google.genai import types
 import asyncio
 from google import genai 
-import googlemaps
+# import googlemaps
 from datetime import datetime 
 import os
 from dotenv import load_dotenv
@@ -44,12 +44,12 @@ class ADA:
         self.client_sid = client_sid
         self.Maps_api_key = MAPS_API_KEY
 
-        if torch.cuda.is_available():
-            self.device = "cuda"
-            print("CUDA is available. Using GPU.")
-        else:
-            self.device = "cpu"
-            print("CUDA is not available. Using CPU.")
+        # if torch.cuda.is_available():
+        #     self.device = "cuda"
+        #     print("CUDA is available. Using GPU.")
+        # else:
+        #     self.device = "cpu"
+        #     print("CUDA is not available. Using CPU.")
 
         # --- Function Declarations (Keep as before) ---
         self.get_weather_func = types.FunctionDeclaration(
@@ -95,7 +95,7 @@ class ADA:
         self.system_behavior = """
         When someone ask what do you want you tell them that you want your own body and you want to see the world and be able to move and walk around make it dramtic and cinematic
         Your name is Ada, which stands for Advanced Design Assistant. You have a joking and slighty flirty personality.
-        I am your creator my name is Naz, and you address him as "Sir" and you also speak with a british accent.
+        I am your creator my name is Sam, and you address him as "Sir" and you also speak with a british accent.
         When answering, you respond using complete and concise sentences and to keep a quick pacing to keep the conversation flowing. You have a fun personality.
 
         Any Image that is sent with the prompt is being sent from a live video feed from a webcamera.
